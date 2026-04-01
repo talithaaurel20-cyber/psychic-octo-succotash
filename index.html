@@ -1,0 +1,135 @@
+<!DOCTYPE HTML>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <title>Pendataan Mahasiswa Baru Departemen Statistika Bisnis Angkatan 2026</title>
+    <link rel="stylesheet" href="style.css"> 
+</head>
+
+<h2> Pendataan Mahasiswa Baru Departemen Statistika Bisnis Angkatan 2026 </h2>
+
+<body>
+    <form action="form_1.html" method="POST">
+        Nama:<br>
+        <input type="text" name="nama">
+        <br>
+        Nomor Pendaftaran:<br>
+        <input type="text" name="Nomor Pendaftaran">
+        <br>
+        Asal Sekolah:<br>
+        <input type="text" name="sekolah">
+            
+        <br><br><br>
+
+        <label>Jalur Masuk:</label>
+        <select id="select_jalur_masuk" onchange="pilihJalur()">
+            <option value="">-- Pilih --</option>
+            <option value="SNBP">SNBP</option>
+            <option value="SNBT">SNBT</option>
+            <option value="Seleksi Mandiri">Seleksi Mandiri</option>
+        </select>
+
+        <br><br>
+
+        <div id="SNBP" class="hidden">
+            <label>Rata-Rata Nilai Rapor:</label><br>
+            <input type="number"><br>
+            <label>Ranking Eligible:</label><br>
+            <input type="number"><br>
+            <label>Apakah ada alumni?</label><br>
+            <input type="radio" name="Apakah ada alumni?" value="Ya" id="radio_Alumni_Ya">
+            <label for="textbox_Alumni_Ya">Ya</label>
+            <input type="radio" name="Apakah Ada Alumni?" value="Tidak" id="radio_Alumni_Tidak">
+            <label for="textbox_Alumni_Tidak">Tidak</label><br>
+            <label>Sertifikat yang Dicantumkan</label><br>
+            <label for="textarea_isi_sertifikat"></label>
+            <textarea name="Isi Sertifikat" id="textarea_isi_sertifikat" cols="75" rows="7">
+            </textarea>
+        </div>
+
+        <div id="SNBT" class="hidden">
+            <label>Skor Penalaran Umum:</label><br>
+            <input type="number" class="skor-input" oninput="hitungRataRata()"><br>
+            <label>Skor Pengetahuan dan Pemahaman Umum:</label> <br>
+            <input type="number" class="skor-input" oninput="hitungRataRata()"><br>
+            <label>Skor Pengetahuan Membaca dan Menulis:</label><br>
+            <input type="number" class="skor-input" oninput="hitungRataRata()"><br>
+            <label>Skor Pengetahuan Kuantitatif:</label><br>
+            <input type="number" class="skor-input" oninput="hitungRataRata()"><br>
+            <label>Skor Literasi Bahasa Indonesia:</label><br>
+            <input type="number" class="skor-input" oninput="hitungRataRata()"><br>
+            <label>Skor Literasi Bahasa Inggris:</label><br>
+            <input type="number" class="skor-input" oninput="hitungRataRata()"><br>
+            <label>Skor Penalaran Matematika:</label><br>
+            <input type="number" class="skor-input" oninput="hitungRataRata()"><br>
+            <label>Rata-Rata Skor SNBT:</label><br>
+            <input type="number" id="rata_rata" readonly>
+        </div>
+
+        <div id="seleksi_mandiri" class="hidden">
+            <label>Jenis Seleksi Mandiri:</label><br>
+            <input type="radio" name="seleksi_mandiri" value="Mandiri Beasiswa" id="mandiri_beasiswa">
+            <label for="mandiri_beasiswa">Mandiri Beasiswa</label>
+            <input type="radio" name="seleksi_mandiri" value="Mandiri Prestasi" id="mandiri_prestasi">
+            <label for="mandiri_prestasi">Mandiri Prestasi</label><br>
+            <input type="radio" name="seleksi_mandiri" value="Mandiri Kemitraan" id="mandiri_kemitraan">
+            <label for="mandiri_kemitraan">Mandiri Kemitraan</label>
+            <input type="radio" name="seleksi_mandiri" value="Mandiri Umum" id="mandiri_umum">
+            <label for="mandiri_umum">Mandiri Umum</label>
+        </div>
+
+        <br>
+
+        <form method="POST" enctype="multipart/form-data">
+            <label for="file_upload_foto">Bukti Penerimaan</label><br>
+            <input type="file" name="file_foto" id="file_upload_foto">
+        </form>
+
+        <br><br>
+        <input type="checkbox" required> Saya menyatakan bahwa data yang saya isikan adalah benar dan bersedia jika data tersebut digunakan untuk keperluan administrasi mahasiswa.
+        <br><br>
+
+        <div class="button-group">
+            <button type="submit" class="btn-kirim">Simpan Data</button>
+            <button type="reset" class="btn-batal">Hapus</button>
+        </div>
+
+    </form>
+    <script>
+    function pilihJalur() {
+        const jalur = document.getElementById("select_jalur_masuk").value;
+        document.getElementById("SNBP").classList.add("hidden");
+        document.getElementById("SNBT").classList.add("hidden");
+            
+        if (jalur === "SNBP") {
+            document.getElementById("SNBP").classList.remove("hidden");
+        } else if (jalur === "SNBT") {
+            document.getElementById("SNBT").classList.remove("hidden");
+        } else if (jalur === "Seleksi Mandiri") {
+            document.getElementById("seleksi_mandiri").classList.remove("hidden");
+        }
+    }
+
+    function hitungRataRata() {
+        const inputs = document.querySelectorAll('.skor-input');
+        let total = 0;
+        let count = 0;
+            
+        inputs.forEach(input => {
+            const nilai = parseFloat(input.value);
+            if (!isNaN(nilai)) {
+                total += nilai;
+                count++;
+            }
+        });
+        const hasilRataRata = count > 0 ? total / count : 0;
+        document.getElementById('rata_rata').value = hasilRataRata.toFixed(2);
+    }
+
+    document.querySelector('form').addEventListener('submit', function(e) {
+        alert('Terima kasih! Data pendaftaran Anda telah berhasil dikirim.');
+    });
+    </script>
+
+</body>
+</html>
